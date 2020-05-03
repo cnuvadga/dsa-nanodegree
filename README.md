@@ -40,7 +40,7 @@ Lesson 2: Graph Algorithms
 Lesson 3: Dynamic Programming
 Lesson 4: Linear Programming
 
-_Sample Practice Problems: Graph Traversals, Dijkstra's Algorithm, Shortest Hops, A* Search, Longest Palindromic
-subsequence, web crawler*
+___Sample Practice Problems: Graph Traversals, Dijkstra's Algorithm, Shortest Hops, A* Search, Longest Palindromic
+subsequence, web crawler
 
 
