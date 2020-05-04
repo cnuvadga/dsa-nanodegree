@@ -1,7 +1,6 @@
-"""
-Read file into texts and calls.
-It's ok if you don't understand how to read files
-"""
+from itertools import chain
+from collections import deque, defaultdict
+from datetime import datetime
 import csv
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
@@ -19,21 +18,17 @@ Print a message:
 "<telephone number> spent the longest time, <total time> seconds, on the phone during 
 September 2016.".
 """
+calls_dictionary = defaultdict(int)
 
-dials = {call[0]: int(call[3]) for call in calls}
-receives = {call[1]: int(call[3]) for call in calls}
-receives_ex_dials = dict()
 
-for (k, v), (k2, v2) in zip(dials.items(), receives.items()):
-    if k in receives.keys():
-        dials[k] = v + receives[k]
-    if k2 not in dials.keys():
-        receives_ex_dials[k2] = v2
+for caller, reciever, timestamp, duration in calls:
+    date = datetime.strptime(timestamp, "%d-%m-%Y %H:%M:%S")
+    if date.year == 2016 and date.month == 9:
+        calls_dictionary[caller] += int(duration)
+        calls_dictionary[reciever] += int(duration)
 
-dials.update(receives_ex_dials)
+template = "{} spent the longest time, {} seconds, on the phone during September 2016."
 
-max_phone = max(dials, key=lambda key: dials[key])
 
-print(f"{max_phone} spent the longest time, {dials[max_phone]} seconds, on the "
-      f"phone during September 2016.")
-
+highest_duration = max(calls_dictionary.items(), key=lambda x: x[1])
+print(template.format(*highest_duration))

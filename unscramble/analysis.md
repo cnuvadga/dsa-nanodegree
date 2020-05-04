@@ -14,7 +14,8 @@ O(n+logn)
 
 ## Task 2
 
-O(n)
+Time Complexity - O(n)
+This algorithm is linear time because it has one for-loop that iterates from 1 to n which results in a running time grows directly in proportion to n.
 
 ## Task 3
 
