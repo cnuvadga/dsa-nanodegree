@@ -1,9 +1,5 @@
-"""
-Read file into texts and calls.
-It's ok if you don't understand how to read files.
-"""
 import csv
-
+from itertools import chain
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
     texts = list(reader)
@@ -18,24 +14,28 @@ The telephone company want to identify numbers that might be doing
 telephone marketing. Create a set of possible telemarketers:
 these are numbers that make outgoing calls but never send texts,
 receive texts or receive incoming calls.
-
 Print a message:
 "These numbers could be telemarketers: "
 <list of numbers>
 The list of numbers should be print out one per line in lexicographic order with no duplicates.
 """
 
-dials = {call[0] for call in calls}
-receives = [call[1] for call in calls]
-real_people = set()
+telephone_numbers_in_texts = list(chain.from_iterable(
+    [(sender, reciever) for sender, reciever, _ in texts]))
 
-for text, receive in zip(texts, receives):
-    for i in range(0, 2):
-        real_people.add(text[i])
-    real_people.add(receive)
+texters = set(telephone_numbers_in_texts)
 
-potential_telemarketers = {call for call in dials if call not in real_people}
-potential_telemarketers = sorted(list(potential_telemarketers))
+callers = set()
+call_recievers = set()
 
-print(f"These numbers could be telemarketers: {potential_telemarketers}")
-print(f"Total potential telemarketers: {len(potential_telemarketers)}")
+for caller, reciever, _, _ in calls:
+    callers.add(caller)
+    call_recievers.add(reciever)
+
+# telemarkerters don't text or revicieve callers
+possible_telemarkerters = callers - (texters | call_recievers)
+
+print("These numbers could be telemarketers:")
+
+for tel_number in sorted(possible_telemarkerters):
+    print(tel_number)

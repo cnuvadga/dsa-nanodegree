@@ -45,27 +45,24 @@ to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
 
-bangalore_calls = [call for call in calls if call[0].startswith("(080)")]
+called_numbers = []
+for i in range(len(calls)):
+    if calls[i][0][:5] == '(080)':
+        if calls[i][1][0] == '(':
+            par_index = calls[i][1].find(')')
+            called_numbers.append(calls[i][1][:par_index+1])
+        elif calls[i][1][:3] == '140':
+            called_numbers.append('140')
+        else:
+            called_numbers.append(calls[i][1][:4])
 
-bangalore_dialed = [call[1] for call in bangalore_calls]
+l = len(called_numbers)
+count = called_numbers.count('(080)')
+called_numbers = sorted(set(called_numbers))
+print("The numbers called by people in Bangalore have codes:")
+for code in called_numbers:
+    print(code)
 
-called_areas = []
-
-for call in bangalore_dialed:
-    if re.search("\(\w+\)", call):
-        called_areas.append(re.search(r'(\(.*?\))', call).group(1))
-    elif re.search(r'(^[7|8|9])', call):
-        called_areas.append(call[0:4])
-    clean_calls = sorted(list(set(called_areas)))
-
-print(f"The numbers called by people in Bangalore have codes: {clean_calls}")
-
-total_calls = len(bangalore_calls)
-
-bangalore_to_bangalore = len([call for call in bangalore_calls if call[
-    1].startswith("(080)")])
-
-percentage = round(bangalore_to_bangalore / total_calls, 4) * 100
-
-print(f"{percentage} percent of calls from fixed lines in Bangalore are calls "
-      f"to other fixed lines in Bangalore.")
+# Part B
+percent = count * 100 / l
+print("{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(round(percent, 2)))
