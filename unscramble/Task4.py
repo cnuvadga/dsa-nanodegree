@@ -20,22 +20,22 @@ Print a message:
 The list of numbers should be print out one per line in lexicographic order with no duplicates.
 """
 
-telephone_numbers_in_texts = list(chain.from_iterable(
+text_numbers = list(chain.from_iterable(
     [(sender, reciever) for sender, reciever, _ in texts]))
 
-texters = set(telephone_numbers_in_texts)
+text_set = set(text_numbers)
 
-callers = set()
-call_recievers = set()
+call_set = set()
+call_recieve = set()
 
-for caller, reciever, _, _ in calls:
-    callers.add(caller)
-    call_recievers.add(reciever)
+for send, recieve, _, _ in calls:
+    call_set.add(send)
+    call_recieve.add(recieve)
 
-# telemarkerters don't text or revicieve callers
-possible_telemarkerters = callers - (texters | call_recievers)
+
+telemarkerters = call_set - (text_set | call_recieve)
 
 print("These numbers could be telemarketers:")
 
-for tel_number in sorted(possible_telemarkerters):
+for tel_number in sorted(telemarkerters):
     print(tel_number)

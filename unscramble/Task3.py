@@ -3,7 +3,6 @@ Read file into texts and calls.
 It's ok if you don't understand how to read files.
 """
 import csv
-import re
 
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
@@ -45,24 +44,23 @@ to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
 
-called_numbers = []
+bangalore_callers = []
 for i in range(len(calls)):
     if calls[i][0][:5] == '(080)':
         if calls[i][1][0] == '(':
             par_index = calls[i][1].find(')')
-            called_numbers.append(calls[i][1][:par_index+1])
+            bangalore_callers.append(calls[i][1][:par_index+1])
         elif calls[i][1][:3] == '140':
-            called_numbers.append('140')
+            bangalore_callers.append('140')
         else:
-            called_numbers.append(calls[i][1][:4])
+            bangalore_callers.append(calls[i][1][:4])
 
-l = len(called_numbers)
-count = called_numbers.count('(080)')
-called_numbers = sorted(set(called_numbers))
+l = len(bangalore_callers)
+result = bangalore_callers.count('(080)')
+bangalore_callers = sorted(set(bangalore_callers))
 print("The numbers called by people in Bangalore have codes:")
-for code in called_numbers:
-    print(code)
+for area_code in bangalore_callers:
+    print(area_code)
 
-# Part B
-percent = count * 100 / l
-print("{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(round(percent, 2)))
+fix_call_percentage = result * 100 / l
+print("{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(round(fix_call_percentage, 2)))

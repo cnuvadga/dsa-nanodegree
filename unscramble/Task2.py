@@ -1,5 +1,4 @@
-from itertools import chain
-from collections import deque, defaultdict
+from collections import defaultdict
 from datetime import datetime
 import csv
 with open('texts.csv', 'r') as f:
@@ -18,17 +17,14 @@ Print a message:
 "<telephone number> spent the longest time, <total time> seconds, on the phone during 
 September 2016.".
 """
-calls_dictionary = defaultdict(int)
+final_dict = defaultdict(int)
 
-
-for caller, reciever, timestamp, duration in calls:
-    date = datetime.strptime(timestamp, "%d-%m-%Y %H:%M:%S")
+for sender, reciever, timetamp, lapse in calls:
+    date = datetime.strptime(timetamp, "%d-%m-%Y %H:%M:%S")
     if date.year == 2016 and date.month == 9:
-        calls_dictionary[caller] += int(duration)
-        calls_dictionary[reciever] += int(duration)
-
-template = "{} spent the longest time, {} seconds, on the phone during September 2016."
+        final_dict[sender] += int(lapse)
+        final_dict[reciever] += int(lapse)
 
 
-highest_duration = max(calls_dictionary.items(), key=lambda x: x[1])
-print(template.format(*highest_duration))
+max_time_spent = max(final_dict.items(), key=lambda x: x[1])
+print("{} spent the longest time, {} seconds, on the phone during September 2016.".format(*max_time_spent))
